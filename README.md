@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 # Random Quote Machine 💬
 
-A React app that fetches random quotes from [Forismatic Quote Generator](https://forismatic.com/en/api/)
+A React app that fetches random quotes from [Quotable](http://api.quotable.io/)
 
 Visit the production __[HERE](https://admijw.github.io/random_quote_machine_react/)__
 
