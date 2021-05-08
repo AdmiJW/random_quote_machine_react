@@ -30,7 +30,7 @@ class QuoteWrapper extends React.Component {
     //Called as callback when the quote is fetched from the quote API
     quoteFetched(quote) {
         //Fetched the same quote again. Refetch to get a different one
-        if (this.state.currentQuote.quoteAuthor === quote.quoteAuthor ) {
+        if (this.state.currentQuote.quoteAuthor === quote.author ) {
             this.fetchQuote();
         }
         else {
@@ -46,27 +46,22 @@ class QuoteWrapper extends React.Component {
                     //End of checking if quoteHistory over 10 items
                 state.quoteHistory),        //No quoteAuthor in currentQuote. Don't add to quote History
 
-                currentQuote: quote,
+                currentQuote: {
+                    quoteText: quote.content,
+                    quoteAuthor: quote.author
+                },
                 fetching: false
             }) );
         }
     }
 
     fetchQuote() {
-        const proxy = 'https://thingproxy.freeboard.io/fetch/';
-        const proxy2 = 'https://cors-anywhere.herokuapp.com/';
-        const target = 'http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en';
+        const target = 'http://api.quotable.io/random';
 
         this.setState( {fetching: true} );
     
-        fetch(target)               //  Tries to fetch directly from API first
-        .catch(err => fetch(proxy + target) )             //  Direct fetch fails, try fetching with proxy
-        .catch(err => fetch(proxy2 + target) )             //If proxy 1 fails, then proceed to use fallback proxy 2
-        .then(e => e.text() )       //Need to convert to text for replacing the \' to ' (Else error occurs)
-        .then( e => {
-            e = e.replace(/\\'/g, "'");    //Escape Quotes need to be replaced, or JSON won't parse correctly
-            return JSON.parse(e);
-        })
+        fetch(target)
+        .then(e => e.json() )
         .then(e => this.quoteFetched(e) )
         .catch( err => {                        //Both the proxy fails. Show an error message
             this.setState({
