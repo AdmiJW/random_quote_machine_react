@@ -56,7 +56,7 @@ class QuoteWrapper extends React.Component {
     }
 
     fetchQuote() {
-        const target = 'http://api.quotable.io/random';
+        const target = 'https://api.quotable.io/random';
 
         this.setState( {fetching: true} );
     
